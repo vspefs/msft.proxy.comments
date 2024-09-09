@@ -251,7 +251,7 @@ int main(void)
     auto c = alloc_coffee(90, false);
     auto s = alloc_sword(false);
     auto p = alloc_poison(-10);
-    
+
     auto w_ret = drink(w);
     if (w_ret.success)
     {
