@@ -1,0 +1,6 @@
+.vscode/
+.xmake/
+build/
+.ds_store
+Thumbs.db
+.DS_Store
