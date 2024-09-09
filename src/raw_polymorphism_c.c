@@ -63,6 +63,11 @@ int16_t get_temperature(void *self_ptr)
 
 drink_result_t drink(void *self_ptr)
 {
+    if((((metainfos_t*)self_ptr)->drink) == nullptr)
+    {
+        exit(0);
+    }
+    
     return ((metainfos_t*)self_ptr)->drink->addr_drink(self_ptr);
 }
 
@@ -73,6 +78,11 @@ struct metaarms
 
 attack_with_result_t attack_with(void *self_ptr)
 {
+    if((((metainfos_t*)self_ptr)->arms) == nullptr)
+    {
+        exit(0);
+    }
+    
     return ((metainfos_t*)self_ptr)->arms->addr_attack_with(self_ptr);
 }
 
@@ -107,6 +117,7 @@ water_t* alloc_water(int16_t temperature)
     self_ptr->meta.drink->addr_drink = drink_water;
     self_ptr->meta.drink->offset_temperature = offsetof(water_t, temperature);
     self_ptr->temperature = temperature;
+    self_ptr->meta.arms = nullptr;
     return self_ptr;
 }
 
@@ -148,6 +159,7 @@ coffee_t* alloc_coffee(int16_t temperature, bool sugar)
     self_ptr->meta.drink = (metadrink_t*)((char*)self_ptr + sizeof(coffee_t));
     self_ptr->meta.drink->addr_drink = drink_coffee;
     self_ptr->meta.drink->offset_temperature = offsetof(coffee_t, temperature);
+    self_ptr->meta.arms = nullptr;
     self_ptr->temperature = temperature;
     self_ptr->sugar = sugar;
     return self_ptr;
@@ -185,6 +197,7 @@ sword_t* alloc_sword(bool rusty)
     auto self_ptr = (sword_t*) malloc(sizeof(sword_t) + sizeof(metaarms_t));
     self_ptr->meta.arms = (metaarms_t*)((char*)self_ptr + sizeof(sword_t));
     self_ptr->meta.arms->addr_attack_with = attack_with_sword;
+    self_ptr->meta.drink = nullptr;
     self_ptr->rusty = rusty;
     return self_ptr;
 }
