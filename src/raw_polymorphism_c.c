@@ -58,6 +58,11 @@ struct metadrink
 
 int16_t get_temperature(void *self_ptr)
 {
+    if((((metainfos_t*)self_ptr)->drink) == nullptr)
+    {
+        exit(0);
+    }
+
     return *(int16_t*)((char*)self_ptr + ((metainfos_t*)self_ptr)->drink->offset_temperature);
 }
 
